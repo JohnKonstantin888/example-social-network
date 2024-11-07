@@ -1,4 +1,4 @@
-package com.example.examplesocialnetwork;
+package com.example.examplesocialnetwork.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String userId) {

@@ -4,8 +4,9 @@ import com.example.examplesocialnetwork.core.UserCore;
 import com.example.examplesocialnetwork.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -18,18 +19,19 @@ public class UserController {
     private final UserCore userCore;
 
     @GetMapping("users")
-    public List<UserDTO> findAllUsers() {
-        return userCore.findAllUsers();
+    public ResponseEntity<List<UserDTO>> findAllUsers() {
+        return ResponseEntity.ok(userCore.findAllUsers());
     }
 
 
     @GetMapping("get/{id}")
-    public UserDTO findUserById(@PathVariable String id) {
-        return userCore.findUserById(id);
+    public ResponseEntity<UserDTO> findUserById(@PathVariable String id) {
+        return ResponseEntity.ok(userCore.findUserById(id));
     }
 
     @PostMapping("register")
-    public UserDTO findPaymentDocuments(@RequestBody String user) {
-        return userCore.registerUser(user);
+    public ResponseEntity<Void> createUser(@RequestBody String user) {
+        userCore.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
