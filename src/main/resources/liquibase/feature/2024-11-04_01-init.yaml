@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-04_01-init-users
+      author: Konstantin Kovalyov
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: esn_users_pk
+                  name: U_ID
+                  remarks: Первичный ключ
+                  type: UUID
+              - column:
+                  name: U_NAME
+                  remarks: Имя
+                  type: VARCHAR(255)
+              - column:
+                  name: U_LAST_NAME
+                  remarks: Фамилия
+                  type: VARCHAR(255)
+              - column:
+                  name: U_BIRTH_DATE
+                  remarks: День рождения
+                  type: DATE
+              - column:
+                  name: U_GENDER
+                  remarks: Пол
+                  type: VARCHAR(6)
+              - column:
+                  name: U_CITY
+                  remarks: Город
+                  type: VARCHAR(255)
+            tableName: ESN_USERS
+
+  - changeSet:
+      id: 2024-11-04_01-init-hobbies
+      author: Konstantin Kovalyov
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: esn_hobby_pk
+                  name: H_ID
+                  remarks: Первичный ключ
+                  type: UUID
+              - column:
+                  name: H_NAME
+                  remarks: Название хобби
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: H_USER_ID
+                  remarks: Ссылка на анкету
+                  type: UUID
+            tableName: ESN_HOBBIES
+
+  - changeSet:
+      id: 2024-11-04_01-init-hobbies-add-fk
+      author: Konstantin Kovalyov
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: ESN_HOBBIES
+            baseColumnNames: H_USER_ID
+            constraintName: fk_hobby_user
+            referencedTableName: ESN_USERS
+            referencedColumnNames: U_ID
